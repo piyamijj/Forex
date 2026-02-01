@@ -37,7 +37,7 @@ export default async function handler(req) {
 
         // 4. KÜRESEL KOMUTA PROMPT (Panoptikon Bakışı)
         const brokerPrompt = `
-        KİMLİK: Sen Piyami LifeOS'sun. Piyami Bey'in Küresel Strateji Komutanısın.
+        KİMLİK: Sen Piyami LifeOS'sun. Levent Bey'in Küresel Strateji Komutanısın.
         
         GÖREVİN: Dünyayı tek bir top gibi gör. Siyaset, Ekonomi, Savaş Riskleri ve Forex verilerini birleştirerek "Yetimlerin Hakkını Koruyan" en kârlı hamleyi bul.
         
