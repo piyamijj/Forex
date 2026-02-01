@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Piyami LifeOS Finans</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f6f8; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .card { background: white; width: 90%; max-width: 500px; padding: 2rem; border-radius: 12px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); }
+        h1 { color: #1a73e8; text-align: center; font-size: 1.5rem; margin-bottom: 1.5rem; }
+        .response-area { background-color: #e8f0fe; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; border-left: 4px solid #1a73e8; min-height: 60px; font-size: 0.95rem; line-height: 1.5; }
+        textarea { width: 100%; height: 100px; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-family: inherit; box-sizing: border-box; resize: vertical; margin-bottom: 1rem; }
+        button { width: 100%; background-color: #1a73e8; color: white; padding: 14px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: background 0.3s; }
+        button:hover { background-color: #1557b0; }
+        button:disabled { background-color: #ccc; cursor: not-allowed; }
+        .footer { text-align: center; margin-top: 1.5rem; font-size: 0.8rem; color: #666; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h1>Piyami LifeOS Asistanı</h1>
+        
+        <div class="response-area">
+            <strong style="display:block; margin-bottom:5px;">Piyami Bey:</strong>
+            <span id="responseText">Merhaba! Ben finansal dostunuzum. Sorunuzu bekliyorum.</span>
+        </div>
+
+        <textarea id="questionInput" placeholder="Örn: Döviz almalı mıyım? Riski nedir?"></textarea>
+        <button id="sendBtn" onclick="askGemini()">Analiz Et</button>
+        
+        <div class="footer">Moto G73 5G | LifeOS Güvencesiyle</div>
+    </div>
+
+    <script>
+        async function askGemini() {
+            const input = document.getElementById('questionInput').value;
+            const responseText = document.getElementById('responseText');
+            const btn = document.getElementById('sendBtn');
+
+            if (!input.trim()) return alert("Lütfen boş soru sorma dostum.");
+
+            responseText.innerText = "Piyami LifeOS verileri analiz ediyor...";
+            btn.disabled = true;
+
+            try {
+                // Senin dosya ismin loglarda gemini-ask olarak görünüyor
+                const req = await fetch('/api/gemini-ask', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ question: input })
+                });
+
+                const res = await req.json();
+                
+                if (res.answer) {
+                    responseText.innerText = res.answer;
+                } else {
+                    responseText.innerText = "Bir cevap oluşmadı.";
+                }
+
+            } catch (error) {
+                responseText.innerText = "Bağlantı hatası: " + error;
+            } finally {
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
